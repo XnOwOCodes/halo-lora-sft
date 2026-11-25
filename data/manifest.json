@@ -1,0 +1,124 @@
+{
+  "case_number_ranges": {
+    "iid": [
+      400,
+      439
+    ],
+    "ood": [
+      600,
+      639
+    ],
+    "train": [
+      100,
+      299
+    ]
+  },
+  "counts": {
+    "iid": 40,
+    "ood": 40,
+    "train": 200
+  },
+  "data_version": 1,
+  "files": {
+    "iid": "eval_iid.jsonl",
+    "ood": "eval_ood.jsonl",
+    "train": "train.jsonl"
+  },
+  "frame_ids": {
+    "ood": [
+      "od-acct-hb",
+      "od-acct-lo",
+      "od-acct-ma",
+      "od-acct-mn",
+      "od-bill-hb",
+      "od-bill-lo",
+      "od-bill-ma",
+      "od-bill-mn",
+      "od-other-hb",
+      "od-other-lo",
+      "od-other-ma",
+      "od-other-mn",
+      "od-refund-hb",
+      "od-refund-lo",
+      "od-refund-ma",
+      "od-refund-mn",
+      "od-ship-hb",
+      "od-ship-lo",
+      "od-ship-ma",
+      "od-ship-mn"
+    ],
+    "train": [
+      "tr-acct-ha",
+      "tr-acct-hb",
+      "tr-acct-ho",
+      "tr-acct-la",
+      "tr-acct-lb",
+      "tr-acct-mb",
+      "tr-acct-mn",
+      "tr-acct-mo",
+      "tr-bill-ha",
+      "tr-bill-hb",
+      "tr-bill-ho",
+      "tr-bill-la",
+      "tr-bill-lb",
+      "tr-bill-mb",
+      "tr-bill-mn",
+      "tr-bill-mo",
+      "tr-other-ha",
+      "tr-other-hb",
+      "tr-other-ho",
+      "tr-other-la",
+      "tr-other-lb",
+      "tr-other-mb",
+      "tr-other-mn",
+      "tr-other-mo",
+      "tr-refund-ha",
+      "tr-refund-hb",
+      "tr-refund-ho",
+      "tr-refund-la",
+      "tr-refund-lb",
+      "tr-refund-mb",
+      "tr-refund-mn",
+      "tr-refund-mo",
+      "tr-ship-ha",
+      "tr-ship-hb",
+      "tr-ship-ho",
+      "tr-ship-la",
+      "tr-ship-lb",
+      "tr-ship-mb",
+      "tr-ship-mn",
+      "tr-ship-mo"
+    ]
+  },
+  "label_source": "Labels are assigned by the generator from the frame's intent, priority, and presence, plus the order id and amount written into that message. They are not human annotations.",
+  "order_id_ranges": {
+    "iid": [
+      30000,
+      30039
+    ],
+    "ood": [
+      60000,
+      60039
+    ],
+    "train": [
+      10000,
+      10199
+    ]
+  },
+  "seed": 42,
+  "sha256": {
+    "eval_iid.jsonl": "0abd5beb9d9b1b78bd06fa802786445f9748a73d6d59cf75718835a3871f2352",
+    "eval_ood.jsonl": "b6bb3b7ce842b96faf65d48b32d5c43112553c9227455c144bd8864c7f9b2ab6",
+    "train.jsonl": "64b198e4c60a2907dacd0521dc7700ab02033890aa0788ff73632ec58b16b840"
+  },
+  "split_definition": {
+    "iid": "Same frames as train, disjoint order ids, amounts, and case numbers.",
+    "ood": "Paraphrase frames that do not appear in training.",
+    "train": "Training frames, repeated."
+  },
+  "split_seeds": {
+    "iid": 43,
+    "ood": 44,
+    "train": 42
+  }
+}

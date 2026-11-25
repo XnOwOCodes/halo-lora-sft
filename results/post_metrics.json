@@ -1,0 +1,136 @@
+{
+  "adapter": {
+    "base_model_name_or_path": "HuggingFaceTB/SmolLM2-135M-Instruct",
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "peft_type": "LORA",
+    "r": 8,
+    "target_modules": [
+      "q_proj",
+      "v_proj",
+      "o_proj",
+      "k_proj"
+    ],
+    "task_type": "CAUSAL_LM"
+  },
+  "adapter_path": "artifacts/adapter",
+  "cuda_available": false,
+  "device": "cpu",
+  "dtype": "float32",
+  "elapsed_seconds": 59.43530152099993,
+  "finished_at_utc": "2026-11-25T14:14:26.296669+00:00",
+  "generation": {
+    "do_sample": false,
+    "max_new_tokens": 64,
+    "num_beams": 1
+  },
+  "model_id": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "predictions_sha256": "04d5209ccf1306263a36bf36f3ec8ecf84179a3cf98ba6ddd78caae9d55b724b",
+  "runtime": {
+    "cpu_count": 4,
+    "cpu_model": "Intel(R) Xeon(R) Processor",
+    "cuda_available": false,
+    "git": {
+      "commit": "6ccd2e2821254b6821d5ea5753ed9bb69c71e492",
+      "dirty": true
+    },
+    "packages": {
+      "accelerate": "1.16.0",
+      "datasets": "5.2.0",
+      "huggingface_hub": "2.4.0",
+      "matplotlib": "3.11.2",
+      "numpy": "2.5.5",
+      "peft": "0.22.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.3",
+      "torch": "2.15.0+cpu",
+      "transformers": "5.24.1",
+      "trl": "1.18.2"
+    },
+    "platform": "Linux-6.12.113+-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.15.0+cpu",
+    "torch_num_threads": 4
+  },
+  "seed": 42,
+  "splits": {
+    "iid": {
+      "canonical_exact_correct": 17,
+      "exact_match_correct": 17,
+      "field_correct_slots": 126,
+      "field_slots": 160,
+      "file": "eval_iid.jsonl",
+      "file_sha256": "0abd5beb9d9b1b78bd06fa802786445f9748a73d6d59cf75718835a3871f2352",
+      "gold_support": {
+        "intent": {
+          "account": 8,
+          "billing": 8,
+          "other": 8,
+          "refund": 8,
+          "shipping": 8
+        },
+        "presence": {
+          "amount": 10,
+          "both": 15,
+          "neither": 5,
+          "order": 10
+        },
+        "priority": {
+          "high": 15,
+          "low": 10,
+          "medium": 15
+        }
+      },
+      "n": 40,
+      "per_field_correct": {
+        "amount_usd": 39,
+        "intent": 34,
+        "order_id": 24,
+        "priority": 29
+      },
+      "schema_valid_correct": 25,
+      "strict_json_correct": 40
+    },
+    "ood": {
+      "canonical_exact_correct": 2,
+      "exact_match_correct": 2,
+      "field_correct_slots": 98,
+      "field_slots": 160,
+      "file": "eval_ood.jsonl",
+      "file_sha256": "b6bb3b7ce842b96faf65d48b32d5c43112553c9227455c144bd8864c7f9b2ab6",
+      "gold_support": {
+        "intent": {
+          "account": 8,
+          "billing": 8,
+          "other": 8,
+          "refund": 8,
+          "shipping": 8
+        },
+        "presence": {
+          "amount": 10,
+          "both": 10,
+          "neither": 10,
+          "order": 10
+        },
+        "priority": {
+          "high": 10,
+          "low": 10,
+          "medium": 20
+        }
+      },
+      "n": 40,
+      "per_field_correct": {
+        "amount_usd": 39,
+        "intent": 18,
+        "order_id": 18,
+        "priority": 23
+      },
+      "schema_valid_correct": 14,
+      "strict_json_correct": 40
+    }
+  },
+  "started_at_utc": "2026-11-25T14:13:26.847852+00:00",
+  "status": "measured",
+  "system_prompt_sha256": "00726ec182db0c0c33cb773d0e0458ed815bca1a8d952704850bd43f7a3fbd1f",
+  "which": "adapter"
+}

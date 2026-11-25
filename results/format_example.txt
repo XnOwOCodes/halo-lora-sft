@@ -1,0 +1,32 @@
+Example id: train-0000
+The loss is applied to the assistant completion only.
+
+PROMPT
+<|im_start|>system
+Extract support fields from the customer message. Reply with only a JSON object using keys intent, order_id, amount_usd, and priority. Do not use markdown.
+intent: refund (money returned), shipping (delivery problem), billing (charge or invoice problem), account (cannot sign in), or other.
+order_id: the ORD-##### id in the message, or null.
+amount_usd: the dollar amount in the message as a number, or null.
+priority: high if they want immediate action, low if they say there is no time pressure, otherwise medium.<|im_end|>
+<|im_start|>user
+Customer message:
+I forgot my password. The last total was $110. As soon as possible. Case 222.<|im_end|>
+<|im_start|>assistant
+
+
+FULL TRAINING TEXT
+<|im_start|>system
+Extract support fields from the customer message. Reply with only a JSON object using keys intent, order_id, amount_usd, and priority. Do not use markdown.
+intent: refund (money returned), shipping (delivery problem), billing (charge or invoice problem), account (cannot sign in), or other.
+order_id: the ORD-##### id in the message, or null.
+amount_usd: the dollar amount in the message as a number, or null.
+priority: high if they want immediate action, low if they say there is no time pressure, otherwise medium.<|im_end|>
+<|im_start|>user
+Customer message:
+I forgot my password. The last total was $110. As soon as possible. Case 222.<|im_end|>
+<|im_start|>assistant
+{"intent":"account","order_id":null,"amount_usd":110,"priority":"high"}<|im_end|>
+
+
+GOLD JSON
+{"intent":"account","order_id":null,"amount_usd":110,"priority":"high"}

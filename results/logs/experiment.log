@@ -1,0 +1,395 @@
+=== data: /workspace/.venv/bin/python -m ticket_sft.data ===
+{
+  "counts": {
+    "train": 200,
+    "iid": 40,
+    "ood": 40
+  },
+  "sha256": {
+    "train.jsonl": "64b198e4c60a2907dacd0521dc7700ab02033890aa0788ff73632ec58b16b840",
+    "eval_iid.jsonl": "0abd5beb9d9b1b78bd06fa802786445f9748a73d6d59cf75718835a3871f2352",
+    "eval_ood.jsonl": "b6bb3b7ce842b96faf65d48b32d5c43112553c9227455c144bd8864c7f9b2ab6"
+  }
+}
+=== data done in 0.0s ===
+=== tests: /workspace/.venv/bin/python -m unittest tests.test_data_and_metrics -v ===
+test_counts_and_seed (tests.test_data_and_metrics.DatasetTests.test_counts_and_seed) ... ok
+test_deterministic (tests.test_data_and_metrics.DatasetTests.test_deterministic) ... ok
+test_files_roundtrip_and_match_committed_data (tests.test_data_and_metrics.DatasetTests.test_files_roundtrip_and_match_committed_data) ... ok
+test_heuristic_behavior (tests.test_data_and_metrics.DatasetTests.test_heuristic_behavior) ... ok
+test_intent_balance_and_disjoint_ids (tests.test_data_and_metrics.DatasetTests.test_intent_balance_and_disjoint_ids) ... ok
+test_prompt_does_not_include_bookkeeping (tests.test_data_and_metrics.DatasetTests.test_prompt_does_not_include_bookkeeping) ... ok
+test_amount_regex_does_not_read_the_order_id (tests.test_data_and_metrics.MetricsTests.test_amount_regex_does_not_read_the_order_id) ... ok
+test_amount_typing (tests.test_data_and_metrics.MetricsTests.test_amount_typing) ... ok
+test_canonical_exact (tests.test_data_and_metrics.MetricsTests.test_canonical_exact) ... ok
+test_fence_and_preamble (tests.test_data_and_metrics.MetricsTests.test_fence_and_preamble) ... ok
+test_missing_null_field_is_not_correct (tests.test_data_and_metrics.MetricsTests.test_missing_null_field_is_not_correct) ... ok
+test_pretty_json_is_semantic_exact_only (tests.test_data_and_metrics.MetricsTests.test_pretty_json_is_semantic_exact_only) ... ok
+test_unparseable (tests.test_data_and_metrics.MetricsTests.test_unparseable) ... ok
+test_wrong_intent_and_extra_key (tests.test_data_and_metrics.MetricsTests.test_wrong_intent_and_extra_key) ... ok
+test_messages_hide_the_frame (tests.test_data_and_metrics.PromptTests.test_messages_hide_the_frame) ... ok
+test_prompt_lists_the_schema (tests.test_data_and_metrics.PromptTests.test_prompt_lists_the_schema) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.017s
+
+OK
+=== tests done in 0.1s ===
+=== keyword: /workspace/.venv/bin/python -m ticket_sft.baselines ===
+2026-11-25 14:07:59,896 INFO root train sanity check passed: keyword heuristic exact match 200/200
+2026-11-25 14:07:59,897 INFO root iid exact match 40/40
+2026-11-25 14:07:59,898 INFO root ood exact match 4/40
+2026-11-25 14:07:59,898 INFO root wrote /workspace/results/keyword_baseline_metrics.json and /workspace/results/keyword_baseline_predictions.jsonl
+=== keyword done in 0.0s ===
+=== baseline_eval: /workspace/.venv/bin/python -m ticket_sft.evaluate --which base ===
+2026-11-25 14:08:02,477 INFO root loading tokenizer and model HuggingFaceTB/SmolLM2-135M-Instruct dtype=float32 device=cpu
+2026-11-25 14:08:02,529 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:08:02,554 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-25 14:08:02,572 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-25 14:08:02,653 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:08:02,879 INFO root prompt example:
+<|im_start|>system
+Extract support fields from the customer message. Reply with only a JSON object using keys intent, order_id, amount_usd, and priority. Do not use markdown.
+intent: refund (money returned), shipping (delivery problem), billing (charge or invoice problem), account (cannot sign in), or other.
+order_id: the ORD-##### id in the message, or null.
+amount_usd: the dollar amount in the message as a number, or null.
+priority: high if they want immediate action, low if they say there is no time pressure, otherwise medium.<|im_end|>
+<|im_start|>user
+Customer message:
+Why was I charged $45 on ORD-30012? Case 402.<|im_end|>
+<|im_start|>assistant
+
+2026-11-25 14:08:03,905 INFO root iid-0000 exact=False strict=False schema=False raw=The customer message indicates that they were charged $45 on the order ID 30012, which is the order number. The order ID is 30012, and the customer message states that they were ch
+2026-11-25 14:08:05,186 INFO root iid-0001 exact=False strict=False schema=False raw=Here is the JSON object that you provided:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "96",   "priority": "high",   "amount_
+2026-11-25 14:08:06,556 INFO root iid-0002 exact=False strict=False schema=False raw=Here is the JSON object with support fields:  ```json {   "intent": "refund",   "order_id": "433",   "amount_usd": "1000",   "priority": "high",   "amount_usd": "1
+2026-11-25 14:08:07,866 INFO root iid-0003 exact=False strict=False schema=False raw=Here is the JSON object that supports the support fields:  ```json {   "intent": {     "order_id": "1234567890",     "amount_usd": "1000",     "priority": "high"   },  
+2026-11-25 14:08:09,148 INFO root iid-0004 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "30032",   "amount_usd": "1000",   "priority": "high",   "customer_id": "1234567890",   "customer
+2026-11-25 14:08:10,585 INFO root iid-0005 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "1234567890",   "priority
+2026-11-25 14:08:12,056 INFO root iid-0006 exact=False strict=False schema=False raw=I'm sorry for the misunderstanding, but as an AI, I don't have the ability to access or access customer information. I'm here to assist with any queries or issues you may have rega
+2026-11-25 14:08:13,382 INFO root iid-0007 exact=False strict=False schema=False raw=The customer message:  "I forgot my password. Case 432. I forgot my password. Case 433. I forgot my password. Case 434. I forgot my password. Case 435. I forgot my password. Case 4
+2026-11-25 14:08:14,697 INFO root iid-0008 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "33",   "amount_usd": "1000",   "priority": "high",   "customer_id": "
+2026-11-25 14:08:16,098 INFO root iid-0009 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": {     "type": "RECOVER",     "message": "I have a miscellaneous question about ORD-30013 for $12. Case 431. I am unabl
+2026-11-25 14:08:16,098 INFO root iid progress 10/40
+2026-11-25 14:08:17,398 INFO root iid-0010 exact=False strict=False schema=False raw=Here is the JSON object that you need to extract support fields from the customer message:  ```json {   "intent": "refund",   "order_id": "434",   "amount_usd": "100",   "priority"
+2026-11-25 14:08:18,310 INFO root iid-0011 exact=False strict=True schema=False raw={   "intent": "refund",   "order_id": "407",   "amount_usd": "100",   "priority": "high" }
+2026-11-25 14:08:19,737 INFO root iid-0012 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "1000",   "priority": "high",   "customer_id": "123456789
+2026-11-25 14:08:21,210 INFO root iid-0013 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "30009",   "amount_usd": "1000",   "priority": "high",   "customer_
+2026-11-25 14:08:22,723 INFO root iid-0014 exact=False strict=False schema=False raw=Here is the JSON object that contains the support fields:  ```json {   "intent": {     "order_id": "1234567890",     "amount_usd": "100000",     "priority": "high"  
+2026-11-25 14:08:24,250 INFO root iid-0015 exact=False strict=False schema=False raw=Here is a JSON object that includes the support fields:  ```json {   "intent": {     "type": "Purchase",     "amount": 33,     "amount_usd": 33,     "priority": "high"   },   "orde
+2026-11-25 14:08:25,635 INFO root iid-0016 exact=False strict=False schema=False raw=Here is the JSON object with support fields:  ```json {   "intent": "refund",   "order_id": "80",   "amount_usd": "80",   "priority": null,   "customer_id": "415",   "
+2026-11-25 14:08:27,020 INFO root iid-0017 exact=False strict=False schema=False raw=I'm sorry for any misunderstanding, but as an AI, I don't have the ability to access or process customer messages. I'm here to assist with customer inquiries and support. I'm unabl
+2026-11-25 14:08:28,483 INFO root iid-0018 exact=False strict=False schema=False raw=Here is the JSON object that contains the support fields:  ```json {   "intent": {     "type": "RECOVER",     "message": "I forgot my password.",     "amount_usd": 40,     "priorit
+2026-11-25 14:08:29,968 INFO root iid-0019 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": 12,   "priority": "high" 
+2026-11-25 14:08:29,969 INFO root iid progress 20/40
+2026-11-25 14:08:31,488 INFO root iid-0020 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "110",   "priority": "high",  
+2026-11-25 14:08:33,030 INFO root iid-0021 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "30016",   "amount_usd": "12",   "priority": "high" } ```  This
+2026-11-25 14:08:34,504 INFO root iid-0022 exact=False strict=False schema=False raw=The customer message indicates that the package was shipped, but it does not specify the reason for the delay. It is possible that the customer is not able to access the package du
+2026-11-25 14:08:35,880 INFO root iid-0023 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": 100,   "priority": "high" 
+2026-11-25 14:08:37,412 INFO root iid-0024 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "30023",   "amount_usd": "8",   "priority": "high" } ```  This object
+2026-11-25 14:08:38,843 INFO root iid-0025 exact=False strict=False schema=False raw=Here's a JSON object that represents the invoice:  ```json {   "id": "30020",   "amount_usd": 1000,   "priority": "high",   "order_id": "30020",   "customer_
+2026-11-25 14:08:40,224 INFO root iid-0026 exact=False strict=False schema=False raw=Here is the JSON object that contains the support fields:  ```json {   "intent": {     "order_id": "30025",     "amount_usd": "75",     "priority": "high"   },   "amount_usd": "
+2026-11-25 14:08:41,553 INFO root iid-0027 exact=False strict=False schema=False raw=Here's the JSON object with support fields:  ```json {   "intent": {     "type": "RECOVER",     "id": "30014",     "amount_usd": "100000",     "priority": "high"  
+2026-11-25 14:08:41,880 INFO root iid-0028 exact=False strict=False schema=False raw=Just a general question. Case 413.
+2026-11-25 14:08:43,256 INFO root iid-0029 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "30027",   "amount_usd": "$24",   "priority": "high" } ``` 
+2026-11-25 14:08:43,256 INFO root iid progress 30/40
+2026-11-25 14:08:44,614 INFO root iid-0030 exact=False strict=False schema=False raw=Here's the JSON object with support fields:  ```json {   "intent": {     "order_id": "1234567890",     "amount_usd": "110",     "priority": "high"   },   "amount_
+2026-11-25 14:08:45,984 INFO root iid-0031 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "1000",   "priority": "high",   "
+2026-11-25 14:08:47,369 INFO root iid-0032 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "30006",   "amount_usd": "1000",   "priority": "high",   "amount_usd_in_amount": "1000",   "amount_
+2026-11-25 14:08:48,756 INFO root iid-0033 exact=False strict=False schema=False raw=Here's a JSON object that includes the support fields:  ```json {   "intent": {     "type": "RECOVER",     "message": "Sorry, we're unable to process your order. Please contact us 
+2026-11-25 14:08:50,130 INFO root iid-0034 exact=False strict=False schema=False raw=Here is a JSON object that includes the support fields:  ```json {   "intent": "refund",   "order_id": "437",   "amount_usd": "1000",   "priority": null,   "customer_id": "1
+2026-11-25 14:08:51,553 INFO root iid-0035 exact=False strict=False schema=False raw=Billing issue on ORD-30017. Case 408.  Billing issue on ORD-30017. Case 408.  Billing issue on ORD-30017. Case 408.  B
+2026-11-25 14:08:53,022 INFO root iid-0036 exact=False strict=False schema=False raw=Here is the JSON object that contains the support fields:  ```json {   "intent": {     "type": "RECOVER",     "description": "The customer has requested a refund for the order amou
+2026-11-25 14:08:54,479 INFO root iid-0037 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "30010",   "amount_usd": "1000",   "priority": "high",   "delivery_
+2026-11-25 14:08:55,976 INFO root iid-0038 exact=False strict=False schema=False raw=The customer message:  "The invoice for $96 looks wrong. As soon as possible. Case 438.  Customer: The invoice for $96 looks wrong. As soon as possible. Case 438.  Customer: The in
+2026-11-25 14:08:57,465 INFO root iid-0039 exact=False strict=False schema=False raw=Here's a JSON object that includes the support fields:  ```json {   "intent": "refund",   "order_id": "426",   "amount_usd": "1000",   "priority": null,   "amount_usd": "
+2026-11-25 14:08:57,465 INFO root iid progress 40/40
+2026-11-25 14:08:57,466 INFO root iid exact match 0/40 field slots 2/160
+2026-11-25 14:08:58,917 INFO root ood-0000 exact=False strict=False schema=False raw=Here is a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": 1000,   "priority": "high",
+2026-11-25 14:09:00,462 INFO root ood-0001 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "refund",   "order_id": "15",   "amount_usd": "15",   "priority": null,   "amount_usd_amount": "15",
+2026-11-25 14:09:01,936 INFO root ood-0002 exact=False strict=False schema=False raw=Here is the JSON object that contains the support fields:  ```json {   "intent": "RECOVER",   "order_id": "60039",   "amount_usd": "10000",   "priority": "high",   "customer
+2026-11-25 14:09:03,455 INFO root ood-0003 exact=False strict=False schema=False raw=Here's a JSON object that represents the courier drop-off:  ```json {   "intent": "refund",   "order_id": "632",   "amount_usd": "125",   "priority": "high" } ``` 
+2026-11-25 14:09:04,927 INFO root ood-0004 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "reimburse",   "order_id": "637",   "amount_usd": "1000",   "priority": null,   "customer_id": "12
+2026-11-25 14:09:06,414 INFO root ood-0005 exact=False strict=False schema=False raw=Here is a JSON object that represents the customer's message:  ```json {   "intent": "refund",   "order_id": "617",   "amount_usd": "1000",   "priority": null,   "customer_id": "
+2026-11-25 14:09:07,830 INFO root ood-0006 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "610",   "amount_usd": "1000",   "priority": "high",   "customer_id": "610",   "customer_name": "John Doe",  
+2026-11-25 14:09:09,282 INFO root ood-0007 exact=False strict=False schema=False raw=Here's a JSON object that includes the required fields:  ```json {   "intent": "refund",   "order_id": null,   "amount_usd": null,   "priority": null,   "customer_id": null,   "ema
+2026-11-25 14:09:10,892 INFO root ood-0008 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "626",   "amount_usd": "110",   "priority": "high" } ```  This
+2026-11-25 14:09:12,500 INFO root ood-0009 exact=False strict=False schema=False raw=Here is the JSON object with the support fields:  ```json {   "intent": {     "type": "RECOVER",     "description": "A general note regarding 15 dollars.",     "amount": 15,     "p
+2026-11-25 14:09:12,500 INFO root ood progress 10/40
+2026-11-25 14:09:13,939 INFO root ood-0010 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "reimbursement",   "order_id": "616",   "amount_usd": 60,   "priority": "high" } ```  This object contains
+2026-11-25 14:09:15,446 INFO root ood-0011 exact=False strict=False schema=False raw=The customer message is:  Could the payment be returned for ORD-60018? Take your time. Case 620.  The customer message is:  Could the payment be returned for ORD-60018? Take your t
+2026-11-25 14:09:16,831 INFO root ood-0012 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "60038",   "amount_usd": "USD 24",   "priority": "high" } ``` 
+2026-11-25 14:09:18,157 INFO root ood-0013 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "618",   "amount_usd": "1000",   "priority": "high",   "customer_id": "618",   "customer_name": "John Doe",  
+2026-11-25 14:09:19,849 INFO root ood-0014 exact=False strict=False schema=False raw=The customer message indicates that they are requesting a refund for a payment made on their card. The order ID is 638, and the amount is $100. The customer is requesting a refund 
+2026-11-25 14:09:21,237 INFO root ood-0015 exact=False strict=False schema=False raw=Here's a JSON object that includes the required fields:  ```json {   "intent": "refund",   "order_id": null,   "amount_usd": null,   "priority": null,   "customer_id": null,   "ema
+2026-11-25 14:09:22,569 INFO root ood-0016 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "refund",   "order_id": "110",   "amount_usd": "110",   "priority": null,   "amount_usd": "110
+2026-11-25 14:09:23,872 INFO root ood-0017 exact=False strict=False schema=False raw=Here is a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": 100,   "priority": "high",  
+2026-11-25 14:09:25,196 INFO root ood-0018 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "60011",   "amount_usd": "75",   "priority": "high" } ```  
+2026-11-25 14:09:26,619 INFO root ood-0019 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "110",   "priority": "high"
+2026-11-25 14:09:26,619 INFO root ood progress 20/40
+2026-11-25 14:09:28,124 INFO root ood-0020 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "15",   "priority": "high" }
+2026-11-25 14:09:29,511 INFO root ood-0021 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "603",   "amount_usd": "1000",   "priority": "high",   "customer_id": "
+2026-11-25 14:09:30,971 INFO root ood-0022 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "reimbursement",   "order_id": "615",   "amount_usd": 24,   "priority": null,   "customer_id": "615
+2026-11-25 14:09:32,499 INFO root ood-0023 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "1000",   "priority": "high",
+2026-11-25 14:09:33,930 INFO root ood-0024 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "633",   "amount_usd": "1000",   "priority": "high",   "customer_id": "633",   "customer_name": "John Doe",  
+2026-11-25 14:09:35,342 INFO root ood-0025 exact=False strict=False schema=False raw={   "intent": "refund",   "order_id": "628",   "amount_usd": "1000",   "priority": "high",   "customer_id": "628",   "customer_name": "John Doe",  
+2026-11-25 14:09:36,734 INFO root ood-0026 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "624",   "amount_usd": "10000",   "priority": "high",   "customer_id":
+2026-11-25 14:09:38,135 INFO root ood-0027 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "1000",   "priority": "high",
+2026-11-25 14:09:39,572 INFO root ood-0028 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer's order:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "125",   "priority": "high"
+2026-11-25 14:09:40,976 INFO root ood-0029 exact=False strict=False schema=False raw=Here is the JSON object that you need:  ```json {   "intent": "reimburse",   "order_id": "639",   "amount_usd": "1000",   "priority": null,   "customer_id": "12
+2026-11-25 14:09:40,976 INFO root ood progress 30/40
+2026-11-25 14:09:42,336 INFO root ood-0030 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "1234567890",   "amount_usd": "1000",   "priority": "high",
+2026-11-25 14:09:43,860 INFO root ood-0031 exact=False strict=False schema=False raw=The customer message is:  Could the payment be returned for ORD-60008? Take your time. Case 614.  The customer message is:  Could the payment be returned for ORD-60008? Take your t
+2026-11-25 14:09:44,787 INFO root ood-0032 exact=False strict=True schema=False raw={   "intent": "refund",   "order_id": "24",   "amount_usd": 24,   "priority": "high" }
+2026-11-25 14:09:46,152 INFO root ood-0033 exact=False strict=False schema=False raw=The customer message is:  "I cannot sign in. The balance was 110 dollars. Case 621.  I am unable to sign in due to a lack of sufficient funds. I have been in contact with the custo
+2026-11-25 14:09:47,568 INFO root ood-0034 exact=False strict=False schema=False raw=Here's a JSON object that represents the customer message:  ```json {   "intent": "refund",   "order_id": "623",   "amount_usd": "USD 45",   "priority": "high" } ```  This
+2026-11-25 14:09:48,982 INFO root ood-0035 exact=False strict=False schema=False raw=The customer message indicates that they are requesting a refund for a payment made on their card. The order ID is 607, and the amount is $100. The customer is requesting a refund 
+2026-11-25 14:09:50,446 INFO root ood-0036 exact=False strict=False schema=False raw=Here is a JSON object that represents the customer's message:  ```json {   "intent": "refund",   "order_id": "625",   "amount_usd": "1000",   "priority": null,   "customer_id": "
+2026-11-25 14:09:51,886 INFO root ood-0037 exact=False strict=False schema=False raw=The customer message is:  "I cannot sign in. The balance was 75 dollars. Case 612.  I am sorry for the inconvenience, but I am unable to assist you with your account. I am unable t
+2026-11-25 14:09:53,338 INFO root ood-0038 exact=False strict=False schema=False raw=Here is the JSON object that contains the support fields:  ```json {   "intent": "RECOVER",   "order_id": "60022",   "amount_usd": "100000",   "priority": "high",   "
+2026-11-25 14:09:54,933 INFO root ood-0039 exact=False strict=False schema=False raw=Here's a JSON object that represents the courier drop-off:  ```json {   "intent": "refund",   "order_id": "622",   "amount_usd": "1000",   "priority": "high" } ```
+2026-11-25 14:09:54,934 INFO root ood progress 40/40
+2026-11-25 14:09:54,934 INFO root ood exact match 0/40 field slots 8/160
+2026-11-25 14:09:55,012 INFO root wrote /workspace/results/baseline_metrics.json and /workspace/results/baseline_predictions.jsonl
+=== baseline_eval done in 115.6s ===
+=== train: /workspace/.venv/bin/python -m ticket_sft.train ===
+2026-11-25 14:09:58,438 INFO root train config model=HuggingFaceTB/SmolLM2-135M-Instruct device=cpu dtype=float32 seed=42
+2026-11-25 14:09:58,438 INFO root loading HuggingFaceTB/SmolLM2-135M-Instruct
+2026-11-25 14:09:58,492 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:09:58,516 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-25 14:09:58,536 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-25 14:09:58,621 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:09:58,870 INFO root model load took 0.4s
+/workspace/.venv/lib/python3.12/site-packages/transformers/training_args.py:1541: FutureWarning: `gradient_checkpointing` is deprecated and will be removed in v6. Use `activation_checkpointing` instead.
+  warnings.warn(f"`{old}` is deprecated and will be removed in v6. Use `{new}` instead.", FutureWarning)
+2026-11-25 14:09:58,883 INFO root building SFTTrainer and checking the completion mask
+2026-11-25 14:10:00,750 INFO root supervised token fraction 0.151 max length 212 mean length 199.1
+2026-11-25 14:10:00,753 INFO root trainable parameters 921600 / 135436608
+2026-11-25 14:10:00,753 INFO root starting trainer.train()
+{'loss': '0.9433', 'grad_norm': '0.8489', 'learning_rate': '0', 'entropy': '1.178', 'mean_token_accuracy': '0.7666', 'num_tokens': '793', 'epoch': '0.02'}
+{'loss': '0.9588', 'grad_norm': '0.7723', 'learning_rate': '4e-05', 'entropy': '1.096', 'mean_token_accuracy': '0.7628', 'num_tokens': '1602', 'epoch': '0.04'}
+{'loss': '0.881', 'grad_norm': '0.7804', 'learning_rate': '8e-05', 'entropy': '1.078', 'mean_token_accuracy': '0.7753', 'num_tokens': '2404', 'epoch': '0.06'}
+{'loss': '0.876', 'grad_norm': '0.7047', 'learning_rate': '0.00012', 'entropy': '1.015', 'mean_token_accuracy': '0.7879', 'num_tokens': '3233', 'epoch': '0.08'}
+{'loss': '0.8646', 'grad_norm': '0.7405', 'learning_rate': '0.00016', 'entropy': '1.127', 'mean_token_accuracy': '0.7627', 'num_tokens': '4009', 'epoch': '0.1'}
+{'loss': '0.8174', 'grad_norm': '0.7255', 'learning_rate': '0.0002', 'entropy': '1.091', 'mean_token_accuracy': '0.7737', 'num_tokens': '4817', 'epoch': '0.12'}
+{'loss': '0.8771', 'grad_norm': '0.8056', 'learning_rate': '0.0001999', 'entropy': '1.14', 'mean_token_accuracy': '0.7726', 'num_tokens': '5587', 'epoch': '0.14'}
+{'loss': '0.7753', 'grad_norm': '0.6656', 'learning_rate': '0.0001998', 'entropy': '1.008', 'mean_token_accuracy': '0.7742', 'num_tokens': '6377', 'epoch': '0.16'}
+{'loss': '0.7763', 'grad_norm': '0.6498', 'learning_rate': '0.0001995', 'entropy': '0.9827', 'mean_token_accuracy': '0.7851', 'num_tokens': '7165', 'epoch': '0.18'}
+{'loss': '0.7091', 'grad_norm': '0.6321', 'learning_rate': '0.0001991', 'entropy': '1.038', 'mean_token_accuracy': '0.7754', 'num_tokens': '7949', 'epoch': '0.2'}
+{'loss': '0.7852', 'grad_norm': '0.6253', 'learning_rate': '0.0001986', 'entropy': '0.9673', 'mean_token_accuracy': '0.7622', 'num_tokens': '8742', 'epoch': '0.22'}
+{'loss': '0.6062', 'grad_norm': '0.6072', 'learning_rate': '0.000198', 'entropy': '0.8032', 'mean_token_accuracy': '0.8075', 'num_tokens': '9570', 'epoch': '0.24'}
+{'loss': '0.7293', 'grad_norm': '0.5798', 'learning_rate': '0.0001973', 'entropy': '0.919', 'mean_token_accuracy': '0.7853', 'num_tokens': '1.036e+04', 'epoch': '0.26'}
+{'loss': '0.6526', 'grad_norm': '0.5536', 'learning_rate': '0.0001965', 'entropy': '0.8757', 'mean_token_accuracy': '0.7843', 'num_tokens': '1.115e+04', 'epoch': '0.28'}
+{'loss': '0.6097', 'grad_norm': '0.6014', 'learning_rate': '0.0001956', 'entropy': '0.8379', 'mean_token_accuracy': '0.7924', 'num_tokens': '1.194e+04', 'epoch': '0.3'}
+{'loss': '0.5729', 'grad_norm': '0.5782', 'learning_rate': '0.0001946', 'entropy': '0.7625', 'mean_token_accuracy': '0.795', 'num_tokens': '1.272e+04', 'epoch': '0.32'}
+{'loss': '0.5085', 'grad_norm': '0.6416', 'learning_rate': '0.0001935', 'entropy': '0.7183', 'mean_token_accuracy': '0.7788', 'num_tokens': '1.35e+04', 'epoch': '0.34'}
+{'loss': '0.511', 'grad_norm': '0.5487', 'learning_rate': '0.0001922', 'entropy': '0.7862', 'mean_token_accuracy': '0.8077', 'num_tokens': '1.43e+04', 'epoch': '0.36'}
+{'loss': '0.3951', 'grad_norm': '0.5122', 'learning_rate': '0.0001909', 'entropy': '0.7078', 'mean_token_accuracy': '0.818', 'num_tokens': '1.51e+04', 'epoch': '0.38'}
+{'loss': '0.4554', 'grad_norm': '0.6269', 'learning_rate': '0.0001895', 'entropy': '0.7099', 'mean_token_accuracy': '0.8686', 'num_tokens': '1.592e+04', 'epoch': '0.4'}
+{'loss': '0.4639', 'grad_norm': '0.5225', 'learning_rate': '0.0001879', 'entropy': '0.7547', 'mean_token_accuracy': '0.8771', 'num_tokens': '1.67e+04', 'epoch': '0.42'}
+{'loss': '0.3669', 'grad_norm': '0.5338', 'learning_rate': '0.0001863', 'entropy': '0.6658', 'mean_token_accuracy': '0.8908', 'num_tokens': '1.746e+04', 'epoch': '0.44'}
+{'loss': '0.3265', 'grad_norm': '0.5693', 'learning_rate': '0.0001846', 'entropy': '0.6373', 'mean_token_accuracy': '0.9097', 'num_tokens': '1.826e+04', 'epoch': '0.46'}
+{'loss': '0.3114', 'grad_norm': '0.4187', 'learning_rate': '0.0001828', 'entropy': '0.6193', 'mean_token_accuracy': '0.936', 'num_tokens': '1.908e+04', 'epoch': '0.48'}
+{'loss': '0.3347', 'grad_norm': '0.3808', 'learning_rate': '0.0001809', 'entropy': '0.6214', 'mean_token_accuracy': '0.9399', 'num_tokens': '1.988e+04', 'epoch': '0.5'}
+{'loss': '0.3035', 'grad_norm': '0.3936', 'learning_rate': '0.0001789', 'entropy': '0.5781', 'mean_token_accuracy': '0.9482', 'num_tokens': '2.069e+04', 'epoch': '0.52'}
+{'loss': '0.3623', 'grad_norm': '0.4432', 'learning_rate': '0.0001768', 'entropy': '0.5555', 'mean_token_accuracy': '0.9049', 'num_tokens': '2.145e+04', 'epoch': '0.54'}
+{'loss': '0.2292', 'grad_norm': '0.464', 'learning_rate': '0.0001747', 'entropy': '0.5337', 'mean_token_accuracy': '0.9687', 'num_tokens': '2.225e+04', 'epoch': '0.56'}
+{'loss': '0.3023', 'grad_norm': '0.4104', 'learning_rate': '0.0001724', 'entropy': '0.4947', 'mean_token_accuracy': '0.9402', 'num_tokens': '2.307e+04', 'epoch': '0.58'}
+{'loss': '0.1852', 'grad_norm': '0.3508', 'learning_rate': '0.0001701', 'entropy': '0.4611', 'mean_token_accuracy': '0.949', 'num_tokens': '2.388e+04', 'epoch': '0.6'}
+{'loss': '0.3009', 'grad_norm': '0.4788', 'learning_rate': '0.0001677', 'entropy': '0.4869', 'mean_token_accuracy': '0.9529', 'num_tokens': '2.47e+04', 'epoch': '0.62'}
+{'loss': '0.2264', 'grad_norm': '0.3776', 'learning_rate': '0.0001653', 'entropy': '0.413', 'mean_token_accuracy': '0.973', 'num_tokens': '2.551e+04', 'epoch': '0.64'}
+{'loss': '0.2181', 'grad_norm': '0.3324', 'learning_rate': '0.0001627', 'entropy': '0.438', 'mean_token_accuracy': '0.9463', 'num_tokens': '2.629e+04', 'epoch': '0.66'}
+{'loss': '0.2739', 'grad_norm': '0.4024', 'learning_rate': '0.0001601', 'entropy': '0.4894', 'mean_token_accuracy': '0.949', 'num_tokens': '2.708e+04', 'epoch': '0.68'}
+{'loss': '0.2142', 'grad_norm': '0.403', 'learning_rate': '0.0001574', 'entropy': '0.3995', 'mean_token_accuracy': '0.9252', 'num_tokens': '2.787e+04', 'epoch': '0.7'}
+{'loss': '0.1779', 'grad_norm': '0.3094', 'learning_rate': '0.0001547', 'entropy': '0.3982', 'mean_token_accuracy': '0.9532', 'num_tokens': '2.864e+04', 'epoch': '0.72'}
+{'loss': '0.1752', 'grad_norm': '0.3524', 'learning_rate': '0.0001519', 'entropy': '0.3505', 'mean_token_accuracy': '0.95', 'num_tokens': '2.944e+04', 'epoch': '0.74'}
+{'loss': '0.2204', 'grad_norm': '0.6617', 'learning_rate': '0.000149', 'entropy': '0.3854', 'mean_token_accuracy': '0.9063', 'num_tokens': '3.023e+04', 'epoch': '0.76'}
+{'loss': '0.1853', 'grad_norm': '0.3899', 'learning_rate': '0.0001461', 'entropy': '0.3585', 'mean_token_accuracy': '0.9566', 'num_tokens': '3.101e+04', 'epoch': '0.78'}
+{'loss': '0.1481', 'grad_norm': '0.3713', 'learning_rate': '0.0001432', 'entropy': '0.3005', 'mean_token_accuracy': '0.9633', 'num_tokens': '3.179e+04', 'epoch': '0.8'}
+{'loss': '0.1212', 'grad_norm': '0.3405', 'learning_rate': '0.0001402', 'entropy': '0.2925', 'mean_token_accuracy': '0.9559', 'num_tokens': '3.258e+04', 'epoch': '0.82'}
+{'loss': '0.1287', 'grad_norm': '0.3462', 'learning_rate': '0.0001371', 'entropy': '0.2733', 'mean_token_accuracy': '0.9614', 'num_tokens': '3.339e+04', 'epoch': '0.84'}
+{'loss': '0.1238', 'grad_norm': '0.402', 'learning_rate': '0.000134', 'entropy': '0.2797', 'mean_token_accuracy': '0.9692', 'num_tokens': '3.418e+04', 'epoch': '0.86'}
+{'loss': '0.1514', 'grad_norm': '0.3581', 'learning_rate': '0.0001309', 'entropy': '0.2776', 'mean_token_accuracy': '0.951', 'num_tokens': '3.498e+04', 'epoch': '0.88'}
+{'loss': '0.1476', 'grad_norm': '0.5426', 'learning_rate': '0.0001277', 'entropy': '0.2664', 'mean_token_accuracy': '0.9331', 'num_tokens': '3.579e+04', 'epoch': '0.9'}
+{'loss': '0.1405', 'grad_norm': '0.4585', 'learning_rate': '0.0001245', 'entropy': '0.2358', 'mean_token_accuracy': '0.9493', 'num_tokens': '3.661e+04', 'epoch': '0.92'}
+{'loss': '0.07434', 'grad_norm': '0.3424', 'learning_rate': '0.0001213', 'entropy': '0.1777', 'mean_token_accuracy': '0.9614', 'num_tokens': '3.742e+04', 'epoch': '0.94'}
+{'loss': '0.1315', 'grad_norm': '0.4206', 'learning_rate': '0.0001181', 'entropy': '0.2434', 'mean_token_accuracy': '0.9459', 'num_tokens': '3.823e+04', 'epoch': '0.96'}
+{'loss': '0.1635', 'grad_norm': '0.3566', 'learning_rate': '0.0001148', 'entropy': '0.271', 'mean_token_accuracy': '0.9467', 'num_tokens': '3.9e+04', 'epoch': '0.98'}
+{'loss': '0.1147', 'grad_norm': '0.4003', 'learning_rate': '0.0001115', 'entropy': '0.1983', 'mean_token_accuracy': '0.9614', 'num_tokens': '3.982e+04', 'epoch': '1'}
+{'loss': '0.124', 'grad_norm': '0.3012', 'learning_rate': '0.0001083', 'entropy': '0.2142', 'mean_token_accuracy': '0.9568', 'num_tokens': '4.062e+04', 'epoch': '1.02'}
+{'loss': '0.1466', 'grad_norm': '0.4174', 'learning_rate': '0.000105', 'entropy': '0.2483', 'mean_token_accuracy': '0.9368', 'num_tokens': '4.139e+04', 'epoch': '1.04'}
+{'loss': '0.07148', 'grad_norm': '0.1959', 'learning_rate': '0.0001017', 'entropy': '0.171', 'mean_token_accuracy': '0.9826', 'num_tokens': '4.219e+04', 'epoch': '1.06'}
+{'loss': '0.146', 'grad_norm': '0.4237', 'learning_rate': '9.835e-05', 'entropy': '0.2697', 'mean_token_accuracy': '0.9546', 'num_tokens': '4.298e+04', 'epoch': '1.08'}
+{'loss': '0.07991', 'grad_norm': '0.2458', 'learning_rate': '9.504e-05', 'entropy': '0.1911', 'mean_token_accuracy': '0.9829', 'num_tokens': '4.379e+04', 'epoch': '1.1'}
+{'loss': '0.1324', 'grad_norm': '0.5173', 'learning_rate': '9.174e-05', 'entropy': '0.2299', 'mean_token_accuracy': '0.9552', 'num_tokens': '4.457e+04', 'epoch': '1.12'}
+{'loss': '0.07792', 'grad_norm': '0.4162', 'learning_rate': '8.845e-05', 'entropy': '0.1956', 'mean_token_accuracy': '0.9922', 'num_tokens': '4.538e+04', 'epoch': '1.14'}
+{'loss': '0.09475', 'grad_norm': '0.3054', 'learning_rate': '8.517e-05', 'entropy': '0.2195', 'mean_token_accuracy': '0.9732', 'num_tokens': '4.62e+04', 'epoch': '1.16'}
+{'loss': '0.1294', 'grad_norm': '0.5284', 'learning_rate': '8.191e-05', 'entropy': '0.2132', 'mean_token_accuracy': '0.9464', 'num_tokens': '4.698e+04', 'epoch': '1.18'}
+{'loss': '0.0781', 'grad_norm': '0.3309', 'learning_rate': '7.867e-05', 'entropy': '0.1534', 'mean_token_accuracy': '0.9674', 'num_tokens': '4.78e+04', 'epoch': '1.2'}
+{'loss': '0.07775', 'grad_norm': '0.3856', 'learning_rate': '7.545e-05', 'entropy': '0.1318', 'mean_token_accuracy': '0.9739', 'num_tokens': '4.86e+04', 'epoch': '1.22'}
+{'loss': '0.09524', 'grad_norm': '0.5767', 'learning_rate': '7.226e-05', 'entropy': '0.1825', 'mean_token_accuracy': '0.9646', 'num_tokens': '4.94e+04', 'epoch': '1.24'}
+{'loss': '0.09381', 'grad_norm': '0.3477', 'learning_rate': '6.91e-05', 'entropy': '0.1824', 'mean_token_accuracy': '0.963', 'num_tokens': '5.02e+04', 'epoch': '1.26'}
+{'loss': '0.0978', 'grad_norm': '0.6276', 'learning_rate': '6.597e-05', 'entropy': '0.1807', 'mean_token_accuracy': '0.9544', 'num_tokens': '5.099e+04', 'epoch': '1.28'}
+{'loss': '0.07039', 'grad_norm': '0.3238', 'learning_rate': '6.288e-05', 'entropy': '0.1481', 'mean_token_accuracy': '0.9743', 'num_tokens': '5.18e+04', 'epoch': '1.3'}
+{'loss': '0.0651', 'grad_norm': '0.3037', 'learning_rate': '5.983e-05', 'entropy': '0.1563', 'mean_token_accuracy': '0.9911', 'num_tokens': '5.261e+04', 'epoch': '1.32'}
+{'loss': '0.109', 'grad_norm': '0.4537', 'learning_rate': '5.682e-05', 'entropy': '0.2092', 'mean_token_accuracy': '0.9558', 'num_tokens': '5.342e+04', 'epoch': '1.34'}
+{'loss': '0.0727', 'grad_norm': '0.3406', 'learning_rate': '5.387e-05', 'entropy': '0.1685', 'mean_token_accuracy': '0.9907', 'num_tokens': '5.424e+04', 'epoch': '1.36'}
+{'loss': '0.08972', 'grad_norm': '0.3759', 'learning_rate': '5.096e-05', 'entropy': '0.1707', 'mean_token_accuracy': '0.973', 'num_tokens': '5.501e+04', 'epoch': '1.38'}
+{'loss': '0.09475', 'grad_norm': '0.3186', 'learning_rate': '4.81e-05', 'entropy': '0.1837', 'mean_token_accuracy': '0.9566', 'num_tokens': '5.582e+04', 'epoch': '1.4'}
+{'loss': '0.09095', 'grad_norm': '0.3433', 'learning_rate': '4.531e-05', 'entropy': '0.1567', 'mean_token_accuracy': '0.9661', 'num_tokens': '5.661e+04', 'epoch': '1.42'}
+{'loss': '0.089', 'grad_norm': '0.4155', 'learning_rate': '4.257e-05', 'entropy': '0.1696', 'mean_token_accuracy': '0.9578', 'num_tokens': '5.742e+04', 'epoch': '1.44'}
+{'loss': '0.06876', 'grad_norm': '0.3403', 'learning_rate': '3.989e-05', 'entropy': '0.1486', 'mean_token_accuracy': '0.9924', 'num_tokens': '5.822e+04', 'epoch': '1.46'}
+{'loss': '0.0969', 'grad_norm': '0.3379', 'learning_rate': '3.728e-05', 'entropy': '0.2003', 'mean_token_accuracy': '0.9712', 'num_tokens': '5.902e+04', 'epoch': '1.48'}
+{'loss': '0.1103', 'grad_norm': '0.5117', 'learning_rate': '3.474e-05', 'entropy': '0.1994', 'mean_token_accuracy': '0.9512', 'num_tokens': '5.978e+04', 'epoch': '1.5'}
+{'loss': '0.09061', 'grad_norm': '0.3015', 'learning_rate': '3.227e-05', 'entropy': '0.1848', 'mean_token_accuracy': '0.9722', 'num_tokens': '6.058e+04', 'epoch': '1.52'}
+{'loss': '0.08775', 'grad_norm': '0.467', 'learning_rate': '2.988e-05', 'entropy': '0.1779', 'mean_token_accuracy': '0.9758', 'num_tokens': '6.14e+04', 'epoch': '1.54'}
+{'loss': '0.1329', 'grad_norm': '0.7454', 'learning_rate': '2.756e-05', 'entropy': '0.1988', 'mean_token_accuracy': '0.933', 'num_tokens': '6.217e+04', 'epoch': '1.56'}
+{'loss': '0.09719', 'grad_norm': '0.4444', 'learning_rate': '2.532e-05', 'entropy': '0.2018', 'mean_token_accuracy': '0.9732', 'num_tokens': '6.298e+04', 'epoch': '1.58'}
+{'loss': '0.08127', 'grad_norm': '0.2955', 'learning_rate': '2.316e-05', 'entropy': '0.1899', 'mean_token_accuracy': '0.9815', 'num_tokens': '6.378e+04', 'epoch': '1.6'}
+{'loss': '0.09553', 'grad_norm': '0.3763', 'learning_rate': '2.109e-05', 'entropy': '0.204', 'mean_token_accuracy': '0.9733', 'num_tokens': '6.458e+04', 'epoch': '1.62'}
+{'loss': '0.07899', 'grad_norm': '0.469', 'learning_rate': '1.91e-05', 'entropy': '0.1579', 'mean_token_accuracy': '0.9748', 'num_tokens': '6.537e+04', 'epoch': '1.64'}
+{'loss': '0.1072', 'grad_norm': '0.5331', 'learning_rate': '1.72e-05', 'entropy': '0.1925', 'mean_token_accuracy': '0.9357', 'num_tokens': '6.615e+04', 'epoch': '1.66'}
+{'loss': '0.06907', 'grad_norm': '0.6126', 'learning_rate': '1.539e-05', 'entropy': '0.1586', 'mean_token_accuracy': '0.9844', 'num_tokens': '6.698e+04', 'epoch': '1.68'}
+{'loss': '0.07739', 'grad_norm': '0.2808', 'learning_rate': '1.367e-05', 'entropy': '0.1374', 'mean_token_accuracy': '0.9562', 'num_tokens': '6.777e+04', 'epoch': '1.7'}
+{'loss': '0.08062', 'grad_norm': '0.4069', 'learning_rate': '1.205e-05', 'entropy': '0.1715', 'mean_token_accuracy': '0.9633', 'num_tokens': '6.855e+04', 'epoch': '1.72'}
+{'loss': '0.07038', 'grad_norm': '0.2109', 'learning_rate': '1.053e-05', 'entropy': '0.1518', 'mean_token_accuracy': '0.9815', 'num_tokens': '6.936e+04', 'epoch': '1.74'}
+{'loss': '0.07146', 'grad_norm': '0.3808', 'learning_rate': '9.099e-06', 'entropy': '0.1562', 'mean_token_accuracy': '0.9748', 'num_tokens': '7.015e+04', 'epoch': '1.76'}
+{'loss': '0.1018', 'grad_norm': '0.511', 'learning_rate': '7.771e-06', 'entropy': '0.1998', 'mean_token_accuracy': '0.9648', 'num_tokens': '7.096e+04', 'epoch': '1.78'}
+{'loss': '0.08762', 'grad_norm': '0.3666', 'learning_rate': '6.544e-06', 'entropy': '0.1792', 'mean_token_accuracy': '0.96', 'num_tokens': '7.172e+04', 'epoch': '1.8'}
+{'loss': '0.07708', 'grad_norm': '0.5188', 'learning_rate': '5.418e-06', 'entropy': '0.1682', 'mean_token_accuracy': '0.9735', 'num_tokens': '7.251e+04', 'epoch': '1.82'}
+{'loss': '0.08861', 'grad_norm': '0.3899', 'learning_rate': '4.396e-06', 'entropy': '0.188', 'mean_token_accuracy': '0.9719', 'num_tokens': '7.329e+04', 'epoch': '1.84'}
+{'loss': '0.07522', 'grad_norm': '0.4016', 'learning_rate': '3.479e-06', 'entropy': '0.159', 'mean_token_accuracy': '0.9631', 'num_tokens': '7.406e+04', 'epoch': '1.86'}
+{'loss': '0.0776', 'grad_norm': '0.3359', 'learning_rate': '2.667e-06', 'entropy': '0.1442', 'mean_token_accuracy': '0.9739', 'num_tokens': '7.486e+04', 'epoch': '1.88'}
+{'loss': '0.05935', 'grad_norm': '0.4267', 'learning_rate': '1.962e-06', 'entropy': '0.1182', 'mean_token_accuracy': '0.977', 'num_tokens': '7.568e+04', 'epoch': '1.9'}
+{'loss': '0.07362', 'grad_norm': '0.3773', 'learning_rate': '1.364e-06', 'entropy': '0.1675', 'mean_token_accuracy': '0.9811', 'num_tokens': '7.648e+04', 'epoch': '1.92'}
+{'loss': '0.07916', 'grad_norm': '0.2648', 'learning_rate': '8.736e-07', 'entropy': '0.1709', 'mean_token_accuracy': '0.9727', 'num_tokens': '7.727e+04', 'epoch': '1.94'}
+{'loss': '0.0868', 'grad_norm': '0.5268', 'learning_rate': '4.917e-07', 'entropy': '0.1766', 'mean_token_accuracy': '0.9732', 'num_tokens': '7.806e+04', 'epoch': '1.96'}
+{'loss': '0.05718', 'grad_norm': '0.2338', 'learning_rate': '2.186e-07', 'entropy': '0.1183', 'mean_token_accuracy': '0.9722', 'num_tokens': '7.885e+04', 'epoch': '1.98'}
+{'loss': '0.09446', 'grad_norm': '0.3424', 'learning_rate': '5.467e-08', 'entropy': '0.1747', 'mean_token_accuracy': '0.9549', 'num_tokens': '7.964e+04', 'epoch': '2'}
+{'train_runtime': '202.4', 'train_samples_per_second': '1.977', 'train_steps_per_second': '0.494', 'train_loss': '0.2543', 'epoch': '2'}
+2026-11-25 14:13:23,363 INFO httpx2 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-25 14:13:23,363 WARNING huggingface_hub.utils._http Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-25 14:13:23,370 INFO httpx2 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/config.json?%2FHuggingFaceTB%2FSmolLM2-135M-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%2236293b6099200eb8aeb55ae2c01bca2ba46d80d0%22 "HTTP/1.1 200 OK"
+2026-11-25 14:13:23,389 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/revision/main "HTTP/1.1 200 OK"
+2026-11-25 14:13:23,433 INFO root finished steps=100 final_loss=0.0945 train_wall=202.5s
+=== train done in 208.6s ===
+=== post_eval: /workspace/.venv/bin/python -m ticket_sft.evaluate --which adapter ===
+2026-11-25 14:13:26,849 INFO root loading tokenizer and model HuggingFaceTB/SmolLM2-135M-Instruct dtype=float32 device=cpu
+2026-11-25 14:13:26,894 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:13:26,919 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-25 14:13:26,947 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-25 14:13:27,034 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:13:27,327 INFO root loaded adapter /workspace/artifacts/adapter
+2026-11-25 14:13:27,336 INFO root prompt example:
+<|im_start|>system
+Extract support fields from the customer message. Reply with only a JSON object using keys intent, order_id, amount_usd, and priority. Do not use markdown.
+intent: refund (money returned), shipping (delivery problem), billing (charge or invoice problem), account (cannot sign in), or other.
+order_id: the ORD-##### id in the message, or null.
+amount_usd: the dollar amount in the message as a number, or null.
+priority: high if they want immediate action, low if they say there is no time pressure, otherwise medium.<|im_end|>
+<|im_start|>user
+Customer message:
+Why was I charged $45 on ORD-30012? Case 402.<|im_end|>
+<|im_start|>assistant
+
+2026-11-25 14:13:28,134 INFO root iid-0000 exact=True strict=True schema=True raw={"intent":"billing","order_id":"ORD-30012","amount_usd":45,"priority":"medium"}
+2026-11-25 14:13:28,915 INFO root iid-0001 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-30007","amount_usd":96,"priority":"medium"}
+2026-11-25 14:13:29,638 INFO root iid-0002 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"ORD-60","amount_usd":60,"priority":"low"}
+2026-11-25 14:13:30,436 INFO root iid-0003 exact=True strict=True schema=True raw={"intent":"refund","order_id":"ORD-30039","amount_usd":80,"priority":"high"}
+2026-11-25 14:13:31,205 INFO root iid-0004 exact=True strict=True schema=True raw={"intent":"shipping","order_id":"ORD-30032","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:31,888 INFO root iid-0005 exact=False strict=True schema=False raw={"intent":"billing","order_id":"12","amount_usd":12,"priority":"low"}
+2026-11-25 14:13:32,713 INFO root iid-0006 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30021","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:33,406 INFO root iid-0007 exact=False strict=True schema=False raw={"intent":"other","order_id":"432","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:34,187 INFO root iid-0008 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30015","amount_usd":33,"priority":"low"}
+2026-11-25 14:13:34,960 INFO root iid-0009 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30013","amount_usd":12,"priority":"medium"}
+2026-11-25 14:13:34,960 INFO root iid progress 10/40
+2026-11-25 14:13:35,640 INFO root iid-0010 exact=False strict=True schema=False raw={"intent":"other","order_id":"434","amount_usd":40,"priority":"medium"}
+2026-11-25 14:13:36,355 INFO root iid-0011 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"ORD-407","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:37,108 INFO root iid-0012 exact=False strict=True schema=True raw={"intent":"refund","order_id":"ORD-30036","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:37,870 INFO root iid-0013 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-30009","amount_usd":75,"priority":"medium"}
+2026-11-25 14:13:38,602 INFO root iid-0014 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30026","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:39,292 INFO root iid-0015 exact=False strict=True schema=False raw={"intent":"billing","order_id":"435","amount_usd":33,"priority":"low"}
+2026-11-25 14:13:39,998 INFO root iid-0016 exact=False strict=True schema=False raw={"intent":"refund","order_id":"ORD-80","amount_usd":80,"priority":"low"}
+2026-11-25 14:13:40,666 INFO root iid-0017 exact=False strict=True schema=False raw={"intent":"billing","order_id":"421","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:41,293 INFO root iid-0018 exact=False strict=True schema=False raw={"intent":"other","order_id":"other","amount_usd":40,"priority":"low"}
+2026-11-25 14:13:42,086 INFO root iid-0019 exact=True strict=True schema=True raw={"intent":"refund","order_id":"ORD-30005","amount_usd":12,"priority":"low"}
+2026-11-25 14:13:42,087 INFO root iid progress 20/40
+2026-11-25 14:13:42,903 INFO root iid-0020 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-30029","amount_usd":110,"priority":"medium"}
+2026-11-25 14:13:43,697 INFO root iid-0021 exact=False strict=True schema=True raw={"intent":"refund","order_id":"ORD-30016","amount_usd":12,"priority":"high"}
+2026-11-25 14:13:44,376 INFO root iid-0022 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"19","amount_usd":19,"priority":"low"}
+2026-11-25 14:13:45,106 INFO root iid-0023 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30037","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:45,842 INFO root iid-0024 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30023","amount_usd":8,"priority":"high"}
+2026-11-25 14:13:46,599 INFO root iid-0025 exact=True strict=True schema=True raw={"intent":"billing","order_id":"ORD-30020","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:47,245 INFO root iid-0026 exact=False strict=True schema=True raw={"intent":"billing","order_id":null,"amount_usd":75,"priority":"low"}
+2026-11-25 14:13:48,035 INFO root iid-0027 exact=True strict=True schema=True raw={"intent":"shipping","order_id":"ORD-30014","amount_usd":45,"priority":"low"}
+2026-11-25 14:13:48,689 INFO root iid-0028 exact=False strict=True schema=False raw={"intent":"billing","order_id":"413","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:49,463 INFO root iid-0029 exact=True strict=True schema=True raw={"intent":"shipping","order_id":"ORD-30027","amount_usd":24,"priority":"medium"}
+2026-11-25 14:13:49,463 INFO root iid progress 30/40
+2026-11-25 14:13:50,246 INFO root iid-0030 exact=False strict=True schema=True raw={"intent":"billing","order_id":"ORD-30031","amount_usd":110,"priority":"medium"}
+2026-11-25 14:13:50,977 INFO root iid-0031 exact=True strict=True schema=True raw={"intent":"refund","order_id":"ORD-30038","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:51,678 INFO root iid-0032 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30006","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:52,328 INFO root iid-0033 exact=False strict=True schema=False raw={"intent":"other","order_id":"409","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:53,061 INFO root iid-0034 exact=False strict=True schema=False raw={"intent":"refund","order_id":"ORD-437","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:53,818 INFO root iid-0035 exact=True strict=True schema=True raw={"intent":"billing","order_id":"ORD-30017","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:54,575 INFO root iid-0036 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30018","amount_usd":40,"priority":"medium"}
+2026-11-25 14:13:55,315 INFO root iid-0037 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-30010","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:56,003 INFO root iid-0038 exact=False strict=True schema=False raw={"intent":"billing","order_id":"438","amount_usd":96,"priority":"low"}
+2026-11-25 14:13:56,712 INFO root iid-0039 exact=False strict=True schema=False raw={"intent":"refund","order_id":"ORD-33","amount_usd":33,"priority":"high"}
+2026-11-25 14:13:56,712 INFO root iid progress 40/40
+2026-11-25 14:13:56,713 INFO root iid exact match 17/40 field slots 126/160
+2026-11-25 14:13:57,414 INFO root ood-0000 exact=False strict=True schema=False raw={"intent":"other","order_id":"634","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:58,137 INFO root ood-0001 exact=False strict=True schema=False raw={"intent":"dollars","order_id":"15","amount_usd":15,"priority":"low"}
+2026-11-25 14:13:58,915 INFO root ood-0002 exact=False strict=True schema=False raw={"intent":"restoreaccess","order_id":"ORD-60039","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:59,639 INFO root ood-0003 exact=False strict=True schema=False raw={"intent":"coupon","order_id":"632","amount_usd":125,"priority":"low"}
+2026-11-25 14:14:00,401 INFO root ood-0004 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"ORD-637","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:01,057 INFO root ood-0005 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"617","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:01,794 INFO root ood-0006 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60029","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:02,499 INFO root ood-0007 exact=False strict=True schema=False raw={"intent":"sending","order_id":"ORD-627","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:03,291 INFO root ood-0008 exact=False strict=True schema=True raw={"intent":"billing","order_id":"ORD-60000","amount_usd":110,"priority":"low"}
+2026-11-25 14:14:03,901 INFO root ood-0009 exact=False strict=True schema=False raw={"intent":"other","order_id":"15","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:03,901 INFO root ood progress 10/40
+2026-11-25 14:14:04,634 INFO root ood-0010 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"616","amount_usd":60,"priority":"medium"}
+2026-11-25 14:14:05,371 INFO root ood-0011 exact=False strict=True schema=False raw={"intent":"return","order_id":"ORD-60018","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:06,149 INFO root ood-0012 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60038","amount_usd":24,"priority":"low"}
+2026-11-25 14:14:06,891 INFO root ood-0013 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60028","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:07,600 INFO root ood-0014 exact=False strict=True schema=False raw={"intent":"billing","order_id":"ORD-638","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:08,312 INFO root ood-0015 exact=False strict=True schema=False raw={"intent":"sending","order_id":"ORD-608","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:09,047 INFO root ood-0016 exact=False strict=True schema=False raw={"intent":"dollars","order_id":"110","amount_usd":110,"priority":"medium"}
+2026-11-25 14:14:09,685 INFO root ood-0017 exact=False strict=True schema=False raw={"intent":"other","order_id":"609","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:10,467 INFO root ood-0018 exact=False strict=True schema=True raw={"intent":"billing","order_id":"ORD-60011","amount_usd":75,"priority":"low"}
+2026-11-25 14:14:11,254 INFO root ood-0019 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-60010","amount_usd":110,"priority":"high"}
+2026-11-25 14:14:11,254 INFO root ood progress 20/40
+2026-11-25 14:14:11,922 INFO root ood-0020 exact=False strict=True schema=False raw={"intent":"reimburse","order_id":null,"amount_usd":15,"priority":"high"}
+2026-11-25 14:14:12,663 INFO root ood-0021 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60025","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:13,421 INFO root ood-0022 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"ORD-24","amount_usd":24,"priority":"medium"}
+2026-11-25 14:14:14,199 INFO root ood-0023 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60027","amount_usd":45,"priority":"low"}
+2026-11-25 14:14:14,945 INFO root ood-0024 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60021","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:15,687 INFO root ood-0025 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60026","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:16,464 INFO root ood-0026 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60001","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:17,181 INFO root ood-0027 exact=False strict=True schema=False raw={"intent":"reimburse","order_id":null,"amount_usd":40,"priority":"high"}
+2026-11-25 14:14:17,990 INFO root ood-0028 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-60007","amount_usd":125,"priority":"high"}
+2026-11-25 14:14:18,773 INFO root ood-0029 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"ORD-639","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:18,773 INFO root ood progress 30/40
+2026-11-25 14:14:19,634 INFO root ood-0030 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60031","amount_usd":45,"priority":"medium"}
+2026-11-25 14:14:20,405 INFO root ood-0031 exact=False strict=True schema=False raw={"intent":"return","order_id":"ORD-60008","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:21,077 INFO root ood-0032 exact=False strict=True schema=False raw={"intent":"other","order_id":"24","amount_usd":24,"priority":"low"}
+2026-11-25 14:14:21,742 INFO root ood-0033 exact=False strict=True schema=False raw={"intent":"account","order_id":"account","amount_usd":110,"priority":"medium"}
+2026-11-25 14:14:22,524 INFO root ood-0034 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60035","amount_usd":45,"priority":"medium"}
+2026-11-25 14:14:23,257 INFO root ood-0035 exact=False strict=True schema=False raw={"intent":"billing","order_id":"ORD-607","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:23,959 INFO root ood-0036 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"625","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:24,701 INFO root ood-0037 exact=False strict=True schema=False raw={"intent":"account","order_id":"ORD-75","amount_usd":75,"priority":"medium"}
+2026-11-25 14:14:25,535 INFO root ood-0038 exact=False strict=True schema=False raw={"intent":"restoreaccess","order_id":"ORD-60022","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:26,282 INFO root ood-0039 exact=False strict=True schema=False raw={"intent":"coupon","order_id":"622","amount_usd":60,"priority":"low"}
+2026-11-25 14:14:26,282 INFO root ood progress 40/40
+2026-11-25 14:14:26,283 INFO root ood exact match 2/40 field slots 98/160
+2026-11-25 14:14:26,312 INFO root wrote /workspace/results/post_metrics.json and /workspace/results/post_predictions.jsonl
+=== post_eval done in 62.7s ===
+=== plot: /workspace/.venv/bin/python -m ticket_sft.plot_loss ===
+/workspace/results/loss_curve.png
+=== plot done in 0.9s ===
+=== report: /workspace/.venv/bin/python -m ticket_sft.report ===
+/workspace/results/results_table.md
+=== report done in 0.0s ===
+=== check: /workspace/.venv/bin/python -m ticket_sft.check_results ===
+results check passed
+EXIT:0

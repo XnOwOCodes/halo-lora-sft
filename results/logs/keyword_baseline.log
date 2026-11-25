@@ -1,0 +1,4 @@
+2026-11-25 14:07:59,896 INFO root train sanity check passed: keyword heuristic exact match 200/200
+2026-11-25 14:07:59,897 INFO root iid exact match 40/40
+2026-11-25 14:07:59,898 INFO root ood exact match 4/40
+2026-11-25 14:07:59,898 INFO root wrote /workspace/results/keyword_baseline_metrics.json and /workspace/results/keyword_baseline_predictions.jsonl

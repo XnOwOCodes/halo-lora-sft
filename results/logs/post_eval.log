@@ -1,0 +1,109 @@
+2026-11-25 14:13:26,849 INFO root loading tokenizer and model HuggingFaceTB/SmolLM2-135M-Instruct dtype=float32 device=cpu
+2026-11-25 14:13:26,894 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:13:26,919 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-25 14:13:26,947 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-25 14:13:27,034 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:13:27,327 INFO root loaded adapter /workspace/artifacts/adapter
+2026-11-25 14:13:27,336 INFO root prompt example:
+<|im_start|>system
+Extract support fields from the customer message. Reply with only a JSON object using keys intent, order_id, amount_usd, and priority. Do not use markdown.
+intent: refund (money returned), shipping (delivery problem), billing (charge or invoice problem), account (cannot sign in), or other.
+order_id: the ORD-##### id in the message, or null.
+amount_usd: the dollar amount in the message as a number, or null.
+priority: high if they want immediate action, low if they say there is no time pressure, otherwise medium.<|im_end|>
+<|im_start|>user
+Customer message:
+Why was I charged $45 on ORD-30012? Case 402.<|im_end|>
+<|im_start|>assistant
+
+2026-11-25 14:13:28,134 INFO root iid-0000 exact=True strict=True schema=True raw={"intent":"billing","order_id":"ORD-30012","amount_usd":45,"priority":"medium"}
+2026-11-25 14:13:28,915 INFO root iid-0001 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-30007","amount_usd":96,"priority":"medium"}
+2026-11-25 14:13:29,638 INFO root iid-0002 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"ORD-60","amount_usd":60,"priority":"low"}
+2026-11-25 14:13:30,436 INFO root iid-0003 exact=True strict=True schema=True raw={"intent":"refund","order_id":"ORD-30039","amount_usd":80,"priority":"high"}
+2026-11-25 14:13:31,205 INFO root iid-0004 exact=True strict=True schema=True raw={"intent":"shipping","order_id":"ORD-30032","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:31,888 INFO root iid-0005 exact=False strict=True schema=False raw={"intent":"billing","order_id":"12","amount_usd":12,"priority":"low"}
+2026-11-25 14:13:32,713 INFO root iid-0006 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30021","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:33,406 INFO root iid-0007 exact=False strict=True schema=False raw={"intent":"other","order_id":"432","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:34,187 INFO root iid-0008 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30015","amount_usd":33,"priority":"low"}
+2026-11-25 14:13:34,960 INFO root iid-0009 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30013","amount_usd":12,"priority":"medium"}
+2026-11-25 14:13:34,960 INFO root iid progress 10/40
+2026-11-25 14:13:35,640 INFO root iid-0010 exact=False strict=True schema=False raw={"intent":"other","order_id":"434","amount_usd":40,"priority":"medium"}
+2026-11-25 14:13:36,355 INFO root iid-0011 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"ORD-407","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:37,108 INFO root iid-0012 exact=False strict=True schema=True raw={"intent":"refund","order_id":"ORD-30036","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:37,870 INFO root iid-0013 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-30009","amount_usd":75,"priority":"medium"}
+2026-11-25 14:13:38,602 INFO root iid-0014 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30026","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:39,292 INFO root iid-0015 exact=False strict=True schema=False raw={"intent":"billing","order_id":"435","amount_usd":33,"priority":"low"}
+2026-11-25 14:13:39,998 INFO root iid-0016 exact=False strict=True schema=False raw={"intent":"refund","order_id":"ORD-80","amount_usd":80,"priority":"low"}
+2026-11-25 14:13:40,666 INFO root iid-0017 exact=False strict=True schema=False raw={"intent":"billing","order_id":"421","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:41,293 INFO root iid-0018 exact=False strict=True schema=False raw={"intent":"other","order_id":"other","amount_usd":40,"priority":"low"}
+2026-11-25 14:13:42,086 INFO root iid-0019 exact=True strict=True schema=True raw={"intent":"refund","order_id":"ORD-30005","amount_usd":12,"priority":"low"}
+2026-11-25 14:13:42,087 INFO root iid progress 20/40
+2026-11-25 14:13:42,903 INFO root iid-0020 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-30029","amount_usd":110,"priority":"medium"}
+2026-11-25 14:13:43,697 INFO root iid-0021 exact=False strict=True schema=True raw={"intent":"refund","order_id":"ORD-30016","amount_usd":12,"priority":"high"}
+2026-11-25 14:13:44,376 INFO root iid-0022 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"19","amount_usd":19,"priority":"low"}
+2026-11-25 14:13:45,106 INFO root iid-0023 exact=True strict=True schema=True raw={"intent":"other","order_id":"ORD-30037","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:45,842 INFO root iid-0024 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30023","amount_usd":8,"priority":"high"}
+2026-11-25 14:13:46,599 INFO root iid-0025 exact=True strict=True schema=True raw={"intent":"billing","order_id":"ORD-30020","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:47,245 INFO root iid-0026 exact=False strict=True schema=True raw={"intent":"billing","order_id":null,"amount_usd":75,"priority":"low"}
+2026-11-25 14:13:48,035 INFO root iid-0027 exact=True strict=True schema=True raw={"intent":"shipping","order_id":"ORD-30014","amount_usd":45,"priority":"low"}
+2026-11-25 14:13:48,689 INFO root iid-0028 exact=False strict=True schema=False raw={"intent":"billing","order_id":"413","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:49,463 INFO root iid-0029 exact=True strict=True schema=True raw={"intent":"shipping","order_id":"ORD-30027","amount_usd":24,"priority":"medium"}
+2026-11-25 14:13:49,463 INFO root iid progress 30/40
+2026-11-25 14:13:50,246 INFO root iid-0030 exact=False strict=True schema=True raw={"intent":"billing","order_id":"ORD-30031","amount_usd":110,"priority":"medium"}
+2026-11-25 14:13:50,977 INFO root iid-0031 exact=True strict=True schema=True raw={"intent":"refund","order_id":"ORD-30038","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:51,678 INFO root iid-0032 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30006","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:52,328 INFO root iid-0033 exact=False strict=True schema=False raw={"intent":"other","order_id":"409","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:53,061 INFO root iid-0034 exact=False strict=True schema=False raw={"intent":"refund","order_id":"ORD-437","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:53,818 INFO root iid-0035 exact=True strict=True schema=True raw={"intent":"billing","order_id":"ORD-30017","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:54,575 INFO root iid-0036 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-30018","amount_usd":40,"priority":"medium"}
+2026-11-25 14:13:55,315 INFO root iid-0037 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-30010","amount_usd":null,"priority":"high"}
+2026-11-25 14:13:56,003 INFO root iid-0038 exact=False strict=True schema=False raw={"intent":"billing","order_id":"438","amount_usd":96,"priority":"low"}
+2026-11-25 14:13:56,712 INFO root iid-0039 exact=False strict=True schema=False raw={"intent":"refund","order_id":"ORD-33","amount_usd":33,"priority":"high"}
+2026-11-25 14:13:56,712 INFO root iid progress 40/40
+2026-11-25 14:13:56,713 INFO root iid exact match 17/40 field slots 126/160
+2026-11-25 14:13:57,414 INFO root ood-0000 exact=False strict=True schema=False raw={"intent":"other","order_id":"634","amount_usd":null,"priority":"medium"}
+2026-11-25 14:13:58,137 INFO root ood-0001 exact=False strict=True schema=False raw={"intent":"dollars","order_id":"15","amount_usd":15,"priority":"low"}
+2026-11-25 14:13:58,915 INFO root ood-0002 exact=False strict=True schema=False raw={"intent":"restoreaccess","order_id":"ORD-60039","amount_usd":null,"priority":"low"}
+2026-11-25 14:13:59,639 INFO root ood-0003 exact=False strict=True schema=False raw={"intent":"coupon","order_id":"632","amount_usd":125,"priority":"low"}
+2026-11-25 14:14:00,401 INFO root ood-0004 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"ORD-637","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:01,057 INFO root ood-0005 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"617","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:01,794 INFO root ood-0006 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60029","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:02,499 INFO root ood-0007 exact=False strict=True schema=False raw={"intent":"sending","order_id":"ORD-627","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:03,291 INFO root ood-0008 exact=False strict=True schema=True raw={"intent":"billing","order_id":"ORD-60000","amount_usd":110,"priority":"low"}
+2026-11-25 14:14:03,901 INFO root ood-0009 exact=False strict=True schema=False raw={"intent":"other","order_id":"15","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:03,901 INFO root ood progress 10/40
+2026-11-25 14:14:04,634 INFO root ood-0010 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"616","amount_usd":60,"priority":"medium"}
+2026-11-25 14:14:05,371 INFO root ood-0011 exact=False strict=True schema=False raw={"intent":"return","order_id":"ORD-60018","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:06,149 INFO root ood-0012 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60038","amount_usd":24,"priority":"low"}
+2026-11-25 14:14:06,891 INFO root ood-0013 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60028","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:07,600 INFO root ood-0014 exact=False strict=True schema=False raw={"intent":"billing","order_id":"ORD-638","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:08,312 INFO root ood-0015 exact=False strict=True schema=False raw={"intent":"sending","order_id":"ORD-608","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:09,047 INFO root ood-0016 exact=False strict=True schema=False raw={"intent":"dollars","order_id":"110","amount_usd":110,"priority":"medium"}
+2026-11-25 14:14:09,685 INFO root ood-0017 exact=False strict=True schema=False raw={"intent":"other","order_id":"609","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:10,467 INFO root ood-0018 exact=False strict=True schema=True raw={"intent":"billing","order_id":"ORD-60011","amount_usd":75,"priority":"low"}
+2026-11-25 14:14:11,254 INFO root ood-0019 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-60010","amount_usd":110,"priority":"high"}
+2026-11-25 14:14:11,254 INFO root ood progress 20/40
+2026-11-25 14:14:11,922 INFO root ood-0020 exact=False strict=True schema=False raw={"intent":"reimburse","order_id":null,"amount_usd":15,"priority":"high"}
+2026-11-25 14:14:12,663 INFO root ood-0021 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60025","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:13,421 INFO root ood-0022 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"ORD-24","amount_usd":24,"priority":"medium"}
+2026-11-25 14:14:14,199 INFO root ood-0023 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60027","amount_usd":45,"priority":"low"}
+2026-11-25 14:14:14,945 INFO root ood-0024 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60021","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:15,687 INFO root ood-0025 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60026","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:16,464 INFO root ood-0026 exact=False strict=True schema=True raw={"intent":"account","order_id":"ORD-60001","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:17,181 INFO root ood-0027 exact=False strict=True schema=False raw={"intent":"reimburse","order_id":null,"amount_usd":40,"priority":"high"}
+2026-11-25 14:14:17,990 INFO root ood-0028 exact=True strict=True schema=True raw={"intent":"account","order_id":"ORD-60007","amount_usd":125,"priority":"high"}
+2026-11-25 14:14:18,773 INFO root ood-0029 exact=False strict=True schema=False raw={"intent":"reimbursed","order_id":"ORD-639","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:18,773 INFO root ood progress 30/40
+2026-11-25 14:14:19,634 INFO root ood-0030 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60031","amount_usd":45,"priority":"medium"}
+2026-11-25 14:14:20,405 INFO root ood-0031 exact=False strict=True schema=False raw={"intent":"return","order_id":"ORD-60008","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:21,077 INFO root ood-0032 exact=False strict=True schema=False raw={"intent":"other","order_id":"24","amount_usd":24,"priority":"low"}
+2026-11-25 14:14:21,742 INFO root ood-0033 exact=False strict=True schema=False raw={"intent":"account","order_id":"account","amount_usd":110,"priority":"medium"}
+2026-11-25 14:14:22,524 INFO root ood-0034 exact=False strict=True schema=True raw={"intent":"other","order_id":"ORD-60035","amount_usd":45,"priority":"medium"}
+2026-11-25 14:14:23,257 INFO root ood-0035 exact=False strict=True schema=False raw={"intent":"billing","order_id":"ORD-607","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:23,959 INFO root ood-0036 exact=False strict=True schema=False raw={"intent":"shipping","order_id":"625","amount_usd":null,"priority":"medium"}
+2026-11-25 14:14:24,701 INFO root ood-0037 exact=False strict=True schema=False raw={"intent":"account","order_id":"ORD-75","amount_usd":75,"priority":"medium"}
+2026-11-25 14:14:25,535 INFO root ood-0038 exact=False strict=True schema=False raw={"intent":"restoreaccess","order_id":"ORD-60022","amount_usd":null,"priority":"low"}
+2026-11-25 14:14:26,282 INFO root ood-0039 exact=False strict=True schema=False raw={"intent":"coupon","order_id":"622","amount_usd":60,"priority":"low"}
+2026-11-25 14:14:26,282 INFO root ood progress 40/40
+2026-11-25 14:14:26,283 INFO root ood exact match 2/40 field slots 98/160
+2026-11-25 14:14:26,312 INFO root wrote /workspace/results/post_metrics.json and /workspace/results/post_predictions.jsonl

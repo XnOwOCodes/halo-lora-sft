@@ -1,0 +1,132 @@
+{
+  "argv": [
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.data"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "unittest",
+      "tests.test_data_and_metrics",
+      "-v"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.baselines"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.evaluate",
+      "--which",
+      "base"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.train"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.evaluate",
+      "--which",
+      "adapter"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.plot_loss"
+    ],
+    [
+      "/workspace/.venv/bin/python",
+      "-m",
+      "ticket_sft.report"
+    ]
+  ],
+  "elapsed_seconds": 388.01468474700005,
+  "env": {
+    "HF_HUB_DISABLE_PROGRESS_BARS": "1",
+    "HF_HUB_DISABLE_TELEMETRY": "1",
+    "MKL_NUM_THREADS": "4",
+    "OMP_NUM_THREADS": "4",
+    "PYTHONHASHSEED": "42",
+    "PYTHONUNBUFFERED": "1",
+    "TOKENIZERS_PARALLELISM": "false",
+    "TQDM_DISABLE": "1"
+  },
+  "exact_match": {
+    "iid_adapter": [
+      17,
+      40
+    ],
+    "iid_base": [
+      0,
+      40
+    ],
+    "iid_keyword": [
+      40,
+      40
+    ],
+    "ood_adapter": [
+      2,
+      40
+    ],
+    "ood_base": [
+      0,
+      40
+    ],
+    "ood_keyword": [
+      4,
+      40
+    ]
+  },
+  "finished_at_utc": "2026-11-25T14:14:27.765772+00:00",
+  "git": {
+    "commit": "6ccd2e2821254b6821d5ea5753ed9bb69c71e492",
+    "dirty": true
+  },
+  "runtime": {
+    "cpu_count": 4,
+    "cpu_model": "Intel(R) Xeon(R) Processor",
+    "cuda_available": false,
+    "git": {
+      "commit": "6ccd2e2821254b6821d5ea5753ed9bb69c71e492",
+      "dirty": true
+    },
+    "packages": {
+      "accelerate": "1.16.0",
+      "datasets": "5.2.0",
+      "huggingface_hub": "2.4.0",
+      "matplotlib": "3.11.2",
+      "numpy": "2.5.5",
+      "peft": "0.22.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.3",
+      "torch": "2.15.0+cpu",
+      "transformers": "5.24.1",
+      "trl": "1.18.2"
+    },
+    "platform": "Linux-6.12.113+-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "torch": "2.15.0+cpu",
+    "torch_num_threads": 4
+  },
+  "stages_seconds": {
+    "baseline_eval": 115.62135809699998,
+    "data": 0.04223283999999694,
+    "keyword": 0.04744536299995161,
+    "plot": 0.9075573229999918,
+    "post_eval": 62.69217274199991,
+    "report": 0.034951670000054946,
+    "tests": 0.06366464699999597,
+    "train": 208.60417403200017
+  },
+  "started_at_utc": "2026-11-25T14:07:59.751088+00:00",
+  "status": "measured",
+  "train_wall_seconds": 202.520954071,
+  "trainer_train_runtime_seconds": 202.3579
+}

@@ -1,0 +1,16 @@
+2026-11-25 14:09:58,438 INFO root train config model=HuggingFaceTB/SmolLM2-135M-Instruct device=cpu dtype=float32 seed=42
+2026-11-25 14:09:58,438 INFO root loading HuggingFaceTB/SmolLM2-135M-Instruct
+2026-11-25 14:09:58,492 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:09:58,516 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-25 14:09:58,536 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-25 14:09:58,621 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct "HTTP/1.1 200 OK"
+2026-11-25 14:09:58,870 INFO root model load took 0.4s
+2026-11-25 14:09:58,883 INFO root building SFTTrainer and checking the completion mask
+2026-11-25 14:10:00,750 INFO root supervised token fraction 0.151 max length 212 mean length 199.1
+2026-11-25 14:10:00,753 INFO root trainable parameters 921600 / 135436608
+2026-11-25 14:10:00,753 INFO root starting trainer.train()
+2026-11-25 14:13:23,363 INFO httpx2 HTTP Request: HEAD https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2026-11-25 14:13:23,363 WARNING huggingface_hub.utils._http Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-11-25 14:13:23,370 INFO httpx2 HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/HuggingFaceTB/SmolLM2-135M-Instruct/12fd25f77366fa6b3b4b768ec3050bf629380bac/config.json?%2FHuggingFaceTB%2FSmolLM2-135M-Instruct%2Fresolve%2Fmain%2Fconfig.json=&etag=%2236293b6099200eb8aeb55ae2c01bca2ba46d80d0%22 "HTTP/1.1 200 OK"
+2026-11-25 14:13:23,389 INFO httpx2 HTTP Request: GET https://huggingface.co/api/models/HuggingFaceTB/SmolLM2-135M-Instruct/revision/main "HTTP/1.1 200 OK"
+2026-11-25 14:13:23,433 INFO root finished steps=100 final_loss=0.0945 train_wall=202.5s

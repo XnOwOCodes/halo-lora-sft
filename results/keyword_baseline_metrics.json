@@ -1,0 +1,45 @@
+{
+  "adapter_path": null,
+  "description": "Deterministic heuristic. Intent and priority use training-frame cues only. Order id and amount use regular expressions. The heuristic always emits canonical JSON, so its JSON rate is 1 by construction.",
+  "elapsed_seconds": 0.005830554999874948,
+  "finished_at_utc": "2026-11-25T14:07:59.898100+00:00",
+  "generation": null,
+  "model_id": null,
+  "predictions_sha256": "cbbc04267520bdfe6f3056825e599df19e734e3a10ee0a3f93b8d187b6ee26c7",
+  "seed": 42,
+  "splits": {
+    "iid": {
+      "canonical_exact_correct": 40,
+      "exact_match_correct": 40,
+      "field_correct_slots": 160,
+      "field_slots": 160,
+      "n": 40,
+      "per_field_correct": {
+        "amount_usd": 40,
+        "intent": 40,
+        "order_id": 40,
+        "priority": 40
+      },
+      "schema_valid_correct": 40,
+      "strict_json_correct": 40
+    },
+    "ood": {
+      "canonical_exact_correct": 4,
+      "exact_match_correct": 4,
+      "field_correct_slots": 108,
+      "field_slots": 160,
+      "n": 40,
+      "per_field_correct": {
+        "amount_usd": 40,
+        "intent": 8,
+        "order_id": 40,
+        "priority": 20
+      },
+      "schema_valid_correct": 40,
+      "strict_json_correct": 40
+    }
+  },
+  "started_at_utc": "2026-11-25T14:07:59.892269+00:00",
+  "status": "measured",
+  "which": "keyword_baseline"
+}
